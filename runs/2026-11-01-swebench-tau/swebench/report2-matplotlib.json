@@ -1,0 +1,22 @@
+[
+ {
+  "instance_id": "matplotlib__matplotlib-20676",
+  "tests_pass": true,
+  "note": "SpanSelector._setup_edge_handle built the edge handles from self.extents, which read the still-untouched Rectangle at (0, 0), so the opening ax.axvline(0) expanded the view to include 0; the initial handle positions now come from ax.get_xbound()/get_ybound(). F2P test_span_selector_bound[horizontal,vertical]: pre 2 failed (assert (0.0, 20.0) == (10.0, 20.0)), post 2 passed; full test_widgets.py 34 passed, 2 skipped."
+ },
+ {
+  "instance_id": "matplotlib__matplotlib-23299",
+  "tests_pass": true,
+  "note": "rc_context saved the whole rcParams copy, so on exit it restored the unresolved 'backend' sentinel; the next backend lookup then switched backends and dropped figures from Gcf. The saved mapping now excludes 'backend', so a backend set inside the context survives. F2P test_no_backend_reset_rccontext: pre 1 failed (assert 'agg' == 'module://aardvark'), post 1 passed; full test_rcparams.py 207 passed, 1 skipped."
+ },
+ {
+  "instance_id": "matplotlib__matplotlib-25332",
+  "tests_pass": true,
+  "note": "cbook.Grouper kept weakrefs in _mapping, which pickle cannot serialize; added __getstate__/__setstate__ that turn the refs into strong objects on dump and back into weakrefs on load. F2P test_complete[png]: pre 1 failed (TypeError: cannot pickle 'weakref' object), post 1 passed; full test_pickle.py 183 passed."
+ },
+ {
+  "instance_id": "matplotlib__matplotlib-26291",
+  "tests_pass": true,
+  "note": "AnchoredLocatorBase.__call__ passed renderer=None straight to OffsetBox.get_window_extent, which fell back to self.figure._get_renderer() on a locator whose .figure is None (the bbox_inches='tight' path). __call__ now resolves None via ax.figure._get_renderer() first. F2P test_inset_axes_tight: pre 1 failed (AttributeError: 'NoneType' object has no attribute '_get_renderer'), post 1 passed; full test_axes_grid1.py 50 passed."
+ }
+]
