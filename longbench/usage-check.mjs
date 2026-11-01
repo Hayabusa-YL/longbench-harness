@@ -1,0 +1,11 @@
+﻿import puppeteer from 'puppeteer-core';
+const b = await puppeteer.connect({ browserURL: 'http://127.0.0.1:9333', defaultViewport: null });
+const p = await b.newPage();
+await p.setViewport({ width: 1400, height: 900 });
+await p.goto('https://platform.deepseek.com/usage', { waitUntil: 'domcontentloaded', timeout: 60000 }).catch((e) => console.log('nav err', e.message));
+await new Promise((r) => setTimeout(r, 8000));
+const d = await p.evaluate(() => ({ url: location.href, t: (document.body.innerText || '').replace(/\s+/g, ' ').slice(0, 700) }));
+console.log('URL:', d.url);
+console.log('TEXT:', d.t);
+await p.screenshot({ path: 'tmp/deepseek-usage.png' }).catch(() => {});
+await b.disconnect();
