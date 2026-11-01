@@ -1,0 +1,42 @@
+[
+  {
+    "instance_id": "sympy__sympy-11618",
+    "tests_pass": true,
+    "note": "Point.distance summed (a-b)**2 over zip(self.args, p.args), so the longer point's extra coordinates were silently dropped: Point3D(1,0,2).distance(Point2D(2,0)) returned 1 instead of sqrt(5). Missing coordinates of the lower dimensional point are now padded with zeros and the sum runs over the common length. F2P test_issue_11617: pre 1 failed (assert 1 == sqrt(5)), post 1 passed; full sympy/geometry/tests/test_point.py 7 passed; fix patch applies cleanly on clean-sympy__sympy-11618."
+  },
+  {
+    "instance_id": "sympy__sympy-13974",
+    "tests_pass": true,
+    "note": "tensor_product_simp passed Pow(TensorProduct) through the generic Pow branch (simp(base)**exp), so a power of a tensor product was never pulled inside and could not be combined with the surrounding Mul. A Pow whose base is a TensorProduct now becomes TensorProduct(*[arg**exp for arg in base.args]), and Mul rewrites such Pows before tensor_product_simp_Mul. F2P test_tensor_product_simp (4 new Pow assertions): pre 1 failed, post 1 passed; full sympy/physics/quantum/tests/test_tensorproduct.py 7 passed."
+  },
+  {
+    "instance_id": "sympy__sympy-15875",
+    "tests_pass": true,
+    "note": "Add._eval_is_zero returned False whenever the known-nonzero real terms summed to zero but imaginary terms had been left out of the test sum (im and not im_or_z); those left-out terms can still cancel, so -2*I + (1 + I)**2 was reported is_zero=False although it may be zero. It now returns None (the True branch for the fully known case is unchanged). F2P test_Add_is_zero: pre 1 failed (assert False is None), post 1 passed; full sympy/core/tests/test_arit.py 82 passed, 3 failed (test_evenness_in_ternary_integer_product_with_odd, test_oddness_in_ternary_integer_product_with_odd, test_issue_3531) - the same 3 fail on pristine clean-sympy__sympy-15875 with no patch, Windows/pytest-shim issue, unrelated."
+  },
+  {
+    "instance_id": "sympy__sympy-17630",
+    "tests_pass": true,
+    "note": "MatrixExpr's Add constructor postprocessor always built MatAdd(cls._from_args(nonmatrices), *matrices); with no scalar term cls._from_args([]) is the identity 0, and matadd's rm_id then stripped every ZeroMatrix arg and left the bare scalar S.Zero, so Add(ZeroMatrix(2,2), ZeroMatrix(2,2)) returned 0 and BlockMatrix(b.blocks*b.blocks) raised (block entries were no longer matrices). The scalar identity is no longer injected when there is no scalar to carry. F2P test_issue_17624 + test_zero_matrix_add: pre 2 failed, post 2 passed; full sympy/matrices/expressions/tests/ 192 passed, 5 failed (test_matrix_add_with_scalar, test_factor_expand, test_MatAdd_postprocessor_xfail, test_matmul_args_cnc_symbols, test_symmetry) - all 5 fail identically on pristine base (7 failed there, the 2 extra being the F2P ones), unrelated."
+  },
+  {
+    "instance_id": "sympy__sympy-19040",
+    "tests_pass": true,
+    "note": "dmp_sqf_part divided f by gcd(f, d f/dx0) only; for a multivariate polynomial that gcd is not trivial even when f is square-free ((x - I*y)*(z - I*t) is coprime to its own factors only after all partials are taken), so the square-free part handed to dmp_ext_factor was already missing (z - I*t); the norm was computed from the truncated polynomial and dmp_trial_division silently dropped the factors that no candidate matched. sqf_part now accumulates the gcd against every partial derivative and stops early on a ground gcd. F2P test_issue_5786 (un-XFAILed, factor(expand((x - I*y)*(z - I*t)), extension=[I])): pre 1 failed (got x - I*y), post 1 passed -> (x - I*y)*(z - I*t); full sympy/polys/tests/ 824 passed, 3 xfailed, 0 failed; full test_polytools.py 150 passed."
+  },
+  {
+    "instance_id": "sympy__sympy-19954",
+    "tests_pass": true,
+    "note": "minimal_blocks deleted num_blocks[i]/blocks[i] inside the loop over rep_blocks, so the two lists shrank while the enumerate index kept advancing; DihedralGroup(18).sylow_subgroup(p=2) raised IndexError: list assignment index out of range. Removals are now recorded in a boolean mask and the three parallel lists (blocks, num_blocks, rep_blocks) are filtered once after the scan. F2P test_sylow_subgroup: pre 1 failed (IndexError in del num_blocks[i], blocks[i]), post 1 passed (orders 4 and 4 for DihedralGroup 18/50); full sympy/combinatorics/tests/test_perm_groups.py 59 passed, 2 skipped."
+  },
+  {
+    "instance_id": "sympy__sympy-21612",
+    "tests_pass": true,
+    "note": "The str printer only parenthesized a Pow factor of a Mul when the Pow's base was a Mul (the #14160 workaround); a base that is itself a Pow was printed without parentheses, so Mul(x, Pow(1/y, -1, evaluate=False), evaluate=False) came out as 'x/1/y'. The guard now also covers Pow bases, giving 'x/(1/y)'. F2P test_Mul: pre 1 failed, post 1 passed; full sympy/printing/tests/test_str.py 100 passed."
+  },
+  {
+    "instance_id": "sympy__sympy-24213",
+    "tests_pass": true,
+    "note": "UnitSystem._collect_factor_and_dimension compared the dimensions of Add operands with !=, so mathematically equivalent dimensions written from different quantity systems (acceleration*time vs velocity) raised ValueError. The comparison now goes through the dimension system's equivalent_dims(). F2P test_issue_24211 (A1*T1 + V1 must not raise): pre 1 failed, post 1 passed; full sympy/physics/units/tests/test_quantities.py 33 passed, 1 xfailed."
+  }
+]
