@@ -1,0 +1,17 @@
+[
+ {
+  "instance_id": "scikit-learn__scikit-learn-12973",
+  "tests_pass": true,
+  "note": "LassoLarsIC.fit 改为 copy_X=None 并解析成 self.copy_X，_preprocess_data 与 lars_path 共用同一值，不再出现 init 参数被 fit 默认值静默覆盖。F2P test_lasso_lars_fit_copyX_behaviour[False] 及同组 4 个参数化用例全过；sklearn/linear_model/tests/test_least_angle.py 34 passed（py3.7 + 源码内预编译扩展）。"
+ },
+ {
+  "instance_id": "scikit-learn__scikit-learn-13142",
+  "tests_pass": true,
+  "note": "sklearn/mixture/base.py: fit_predict 里把 self._set_parameters(best_params) 移到最终 e-step 之前，返回标签改用最优初始化的参数，n_init>1 时与 predict 一致。F2P 两个用例全过；sklearn/mixture/tests 全量 58 passed（py3.7）。"
+ },
+ {
+  "instance_id": "scikit-learn__scikit-learn-26194",
+  "tests_pass": true,
+  "note": "sklearn/metrics/_ranking.py: roc_curve 首阈值由 thresholds[0]+1 改为 np.inf（文档与 doctest 例子同步），概率输入时不再出现 >1 的阈值。F2P 两个用例全过；test_ranking.py 全量 205 passed。环境说明：本机无 C 编译器无法编译该 1.3.dev0 提交，改用 venv39 里已编译的 1.3.2 扩展 + 一处导入垫片（_dispatcher.py 把 METRIC_MAPPING 映射到 METRIC_MAPPING64，仅存在于临时运行副本，不进补丁）在源码树上跑；对照跑 test_common/test_roc_curve_display/test_public_functions 的有/无补丁失败数均为 19 个、通过 1340 个，属扩展版本不匹配的既有失败，与补丁无关。"
+ }
+]
