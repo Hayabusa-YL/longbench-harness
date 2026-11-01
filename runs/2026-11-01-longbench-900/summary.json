@@ -1,0 +1,47 @@
+{
+ "meta": {
+  "stamp": "2026-11-01T12-39-15",
+  "n": 300,
+  "model": "deepseek-chat",
+  "subsets": [
+   "hotpotqa",
+   "gov_report",
+   "qasper",
+   "passage_retrieval_en_e"
+  ],
+  "endpoint": "https://api.deepseek.com/chat/completions",
+  "dataDir": "C:\\Users\\25670\\Desktop\\dsh-clean\\tools\\longbench\\data",
+  "node": "v22.23.4",
+  "startedAt": "2026-11-01T12:39:15.106Z"
+ },
+ "summary": {
+  "hotpotqa": {
+   "n": 200,
+   "meanScore": 0.7076,
+   "fails": 0,
+   "promptTokens": 2563864,
+   "completionTokens": 757
+  },
+  "gov_report": {
+   "n": 200,
+   "meanScore": 0.2119,
+   "fails": 0,
+   "promptTokens": 2059664,
+   "completionTokens": 102082
+  },
+  "qasper": {
+   "n": 200,
+   "meanScore": 0.5144,
+   "fails": 0,
+   "promptTokens": 1001515,
+   "completionTokens": 2803
+  },
+  "passage_retrieval_en_e": {
+   "n": 300,
+   "meanScore": 1,
+   "fails": 0,
+   "promptTokens": 2448920,
+   "completionTokens": 900
+  }
+ }
+}
