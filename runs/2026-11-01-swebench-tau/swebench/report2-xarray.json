@@ -1,0 +1,12 @@
+[
+  {
+    "instance_id": "pydata__xarray-3305",
+    "tests_pass": true,
+    "note": "DataArray.quantile ignored keep_attrs. Root cause: DataArray.quantile delegates to Dataset.quantile on a temp Dataset whose attrs live on the per-variable, but Dataset.quantile called Variable.quantile which dropped attrs. Fix: Variable.quantile gained keep_attrs and returns attrs when resolved True; Dataset.quantile resolves keep_attrs before building variables and forwards it to var.quantile. Verified: with test_patch only -> xarray/tests/test_dataarray.py::TestDataArray::test_quantile FAILED; with fix -> 1 passed. Regression: full xarray/tests/test_dataarray.py -> 568 passed, 98 skipped, 2 xfailed, 1 failed (test_raise_no_warning_for_nan_in_binary_ops, also fails on pristine base in this numpy 1.23.5 env, unrelated). test_variable.py 191 passed, dataset/groupby quantile+keep_attrs 4 passed."
+  },
+  {
+    "instance_id": "pydata__xarray-7233",
+    "tests_pass": true,
+    "note": "Coarsen.construct demoted non-dimensional coordinates to data variables. Root cause in xarray/core/rolling.py Coarsen.construct: should_be_coords was only window_dim keys that were also coords, so e.g. day(time) lost coord status on Dataset output (dim-named coords were auto-promoted, hiding the bug). Fix: should_be_coords = set(obj.coords) & set(reshaped.variables), i.e. re-set every original coord. Verified: with test_patch only -> xarray/tests/test_coarsen.py::TestCoarsenConstruct::test_coarsen_construct_keeps_all_coords FAILED (day vs []); with fix -> TestCoarsenConstruct 3 passed; full xarray/tests/test_coarsen.py 98 passed, 100 skipped."
+  }
+]
