@@ -38,11 +38,11 @@ flowchart LR
 - `longbench/` — 运行脚本（run、peek、balance、usage-check）
 - `scripts/` — 官方口径判分脚本（eval_v1.py + metrics.py，来自 THUDM/LongBench v1 git 历史）
 - `runs/2026-11-01-longbench-900/` — 900 题逐题明细、汇总、官方判分、人工抽检
-- `runs/2026-11-01-swebench-tau/` — 另一组评测记录（SWE-bench 无历史重跑、τ-bench）
+- `runs/2026-11-01-swebench-tau/` — **辅助资料**（SWE-bench 补丁验证 + τ-bench 记录；不作为模型能力结论）
 
 ## 口径与限制
 
 - 结果按 LongBench v1 官方 `eval.py` 判分（qa_f1 / rouge-l / retrieval），不是自建口径
 - 900 题是 v1 全量约一半，小样本估计 ±3%；gov_report 低于官方均值属真实短板
 - 人工抽检 32 条，判分合理 30/32，2 条为 token-F1 固有局限
-- SWE-bench 那组是补丁复用验证（非独立解题），见对应目录 README
+- SWE-bench 相关记录是**辅助资料**：那是补丁有效性验证（非独立解题），四轮尝试分别受 git 历史/补丁复用/网络检索污染，不属于独立解题结果，不得作为模型能力依据；τ-bench 结果见目录内记录
