@@ -1,0 +1,15 @@
+{
+ "stamp": "2026-11-01T12-39-15",
+ "n": 300,
+ "model": "deepseek-chat",
+ "subsets": [
+  "hotpotqa",
+  "gov_report",
+  "qasper",
+  "passage_retrieval_en_e"
+ ],
+ "endpoint": "https://api.deepseek.com/chat/completions",
+ "dataDir": "C:\\Users\\25670\\Desktop\\dsh-clean\\tools\\longbench\\data",
+ "node": "v22.23.4",
+ "startedAt": "2026-11-01T12:39:15.106Z"
+}
