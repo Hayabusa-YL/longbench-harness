@@ -1,0 +1,17 @@
+[
+    {
+        "instance_id":  "pytest-dev__pytest-5262",
+        "tests_pass":  true,
+        "note":  "EncodedFile (the fd/std capture wrapper) had no \u0027mode\u0027 property; pytest_runtestloop reads sys.stdout.buffer.mode to decide whether to rewrite the report when capture is disabled, so --capture=no + fd capture raised AttributeError. Fix: add EncodedFile.mode -\u003e self.buffer.mode.replace(\u0027b\u0027,\u0027\u0027) (text-mode view of the wrapped file). Verified: test_patch only -\u003e testing/test_capture.py::TestFDCapture::test_capfd_sys_stdout_mode FAILED (AttributeError: \u0027EncodedFile\u0027 object has no attribute \u0027mode\u0027); with fix -\u003e 1 passed. Regression: full testing/test_capture.py -\u003e 108 passed, 6 skipped, 1 xfailed, 1 failed (test_crash_on_closing_tmpfile_py27, also fails on pristine base in this env, unrelated)."
+    },
+    {
+        "instance_id":  "pytest-dev__pytest-6197",
+        "tests_pass":  true,
+        "note":  "Package.collect() eagerly called self._mount_obj_if_needed(), importing the package __init__.py just because a directory below it was being collected. That ran arbitrary asserts in unrelated packages (foopkg/__init__.py with \u0027assert False\u0027 turned a clean run into a collection error) and imported via parent dirs, putting \u0027src\u0027 on sys.path. Fix: remove the eager mount from Package.collect; PyobjMixin.obj already mounts lazily via the obj property when a node is actually set up/collected. Verified: test_patch only -\u003e test_does_not_eagerly_collect_packages FAILED and test_does_not_put_src_on_path FAILED; with fix -\u003e 2 passed. Regression: full testing/test_collection.py + testing/test_skipping.py -\u003e 142 passed, 4 skipped, 1 xfailed, 2 failed (Test_getinitialnodes::test_pkgfile and test_collect_init_tests), both fail identically on pristine base in this Windows env (nodeid/path formatting), unrelated."
+    },
+    {
+        "instance_id":  "pytest-dev__pytest-7236",
+        "tests_pass":  true,
+        "note":  "With --pdb, TestCaseFunction.runtest() postpones unittest tearDown() by storing the bound tearDown and replacing it with a no-op, and TestCaseFunction.teardown() calls the stored one unconditionally. For tests skipped with @unittest.skip, unittest\u0027s TestCase.run returns before calling tearDown(), but the postponed tearDown still ran in the pytest teardown phase -\u003e tearDown executed on skipped tests (the reported NameError in user tearDown). Fix: only postpone when neither the test nor the TestCase class is marked with @unittest.skip, via new _is_skipped() helper checking __unittest_skip__. Verified: test_pdb_teardown_skipped[@unittest.skip] FAILED before (tracked == [\u0027tearDown:...\u0027]) and passes after; both params ([@unittest.skip], [@pytest.mark.skip]) -\u003e 2 passed. Regression: full testing/test_unittest.py -\u003e 52 passed, 9 skipped."
+    }
+]
