@@ -1,0 +1,22 @@
+[
+  {
+    "instance_id": "sphinx-doc__sphinx-10323",
+    "tests_pass": true,
+    "note": "sphinx/directives/code.py: filters 顺序改为 dedent 先于 prepend/append，prepend/append 文本不再被 dedent 吞掉缩进；目标用例 test_LiteralIncludeReader_dedent_and_append_and_prepend 在 --runxfail 下 PASSED（该用例带 @pytest.mark.xfail(os.name != 'posix')，Windows 常规跑显示 xfail），去掉修复则 FAILED；同文件另有 3 个 Windows 预存失败（diff/linenos/linenothreshold），base 上同样失败，与修复无关。"
+  },
+  {
+    "instance_id": "sphinx-doc__sphinx-8035",
+    "tests_pass": true,
+    "note": "autodoc: private-members 选项改用 members_option，可接收成员名列表；merge_special_members_option 扩展为 merge_members_option 并合并 private-members；filter_members 用 is_private_member_kept() 判断显式列出的私有成员。目标用例 test_private_members PASSED，test_ext_autodoc_private_members.py 3 项全过，test_ext_autodoc.py 61 passed 1 skipped；去掉修复目标用例 FAILED。"
+  },
+  {
+    "instance_id": "sphinx-doc__sphinx-8475",
+    "tests_pass": true,
+    "note": "linkcheck: HEAD 请求除 HTTPError 外也捕获 requests.exceptions.TooManyRedirects，再回退 GET。目标用例 test_TooManyRedirects_on_HEAD PASSED（本地 HTTP 服务器，约 65 秒）；去掉修复则 FAILED。"
+  },
+  {
+    "instance_id": "sphinx-doc__sphinx-9698",
+    "tests_pass": true,
+    "note": "sphinx/domains/python.py PyMethod.get_index_text 的 property 分支去掉多余的 (); 目标用例 test_pymethod_options PASSED，test_domain_py.py 全部 46 项通过；去掉修复则 FAILED。"
+  }
+]
