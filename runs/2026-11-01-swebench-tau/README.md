@@ -9,7 +9,7 @@
 | SWE-bench（无历史快照重跑） | 7 仓库 47 题 | 47/47 通过（补丁有效性验证） |
 | SWE-bench astropy | 2 题 | 4 个目标测试通过（单独验证） |
 | τ-bench airline（v1.9.4，pass^1） | 5 trials × 50 tasks | **0.4833** |
-| τ-bench retail | — | 未完成（模型限流中断 + 网络故障，剩 11 题） |
+| τ-bench retail（v1.9.4，单轮 pass^1） | 115 题 × 1 trial | **82/115 通过（71.3%）** |
 
 ## SWE-bench 解读（重要，别只看分数）
 
@@ -40,6 +40,12 @@
 - 5 trials × 50 tasks，pass^1 = **0.4833**（官方 runner 输出）
 - 官方结果文件在评测副本目录内，未随本报告上传（目录已清理）
 
+## τ-bench retail
+
+- 版本 v1.9.4，官方 runner，单轮（1 trial × 115 tasks）
+- agent：deepseek-chat（tool-calling），user：deepseek-chat（llm）
+- 通过 **82/115（71.3%）**，逐题结果在评测副本 `results/` 内（`tool-calling-deepseek-chat-*-llm_1102000256.json`）
+
 ## 成本记录（补充）
 
 - 2026-11-01 21–24 点平台口径 token 消耗：10,456,346 / 99,847,920 / 75,799,028
@@ -49,5 +55,5 @@
 ## 限制
 
 - SWE-bench 分数不代表模型独立解题能力（补丁复用，见上）。
-- τ-bench retail 未完成；airline 单环境结果。
+- τ-bench 两个环境都只跑了单轮（retail 1 trial、airline 5 trials），不是官方标准的多轮 pass^k 全量口径。
 - 评测在 Windows 环境跑的，部分用例需要平台 shim（tzset、aclosing、编译扩展），已在逐题 note 里标注。
