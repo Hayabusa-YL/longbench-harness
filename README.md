@@ -1,6 +1,6 @@
 # longbench-harness
 
-> **TL;DR** — 用 deepseek-flash 测 LongBench v1 的长上下文直读能力：挑了 4 个英文子集、900 题（占官方全量 4750 题的约 19%），每题一次调用直灌全文、不做检索/压缩；官方 eval.py 口径 passage_retrieval 100%、HotpotQA token F1 71.04，900 题零失败，平台账单按 token 折算约 4.5 元。
+> **TL;DR** — 用 deepseek-flash 测 LongBench v1 的长上下文直读能力：挑了 4 个英文子集、900 题（占官方全量 4750 题的约 19%），每题一次调用直灌全文、不做检索/压缩；官方 eval.py 口径 passage_retrieval 100%、HotpotQA token F1 71.04，900 题零失败，在 i7-13650HX 笔记本上跑 24 分 46 秒，平台账单按 token 折算约 4.5 元。
 
 ## 结果（THUDM/LongBench v1 官方 eval.py 口径）
 
@@ -27,7 +27,8 @@ flowchart LR
 
 - 每题一次 API 调用：整段文档上下文直接拼进 prompt，temperature 0，按任务限输出长度（摘要 512 token，其余 32–64）
 - 没有检索、没有上下文压缩、没有多轮工具调用——这版 harness 测的是长上下文直读，不是 agent 工具链
-- 平均每题上下文 4.2 万字符，最长 25.7 万字符；串行跑完 900 题约 25 分钟，零失败（脚本带最多 3 次失败重试）
+- 平均每题上下文 4.2 万字符，最长 25.7 万字符；串行跑完 900 题，2026-11-01 20:39:15 开始、21:04:01 结束，共 24 分 46 秒（电脑时间），单题平均 1.65 秒，零失败（脚本带最多 3 次失败重试）
+- 环境：联想 83JJ 笔记本，i7-13650HX（14 核 20 线程）/ 24GB 内存 / RTX 4060 Laptop 8GB / 512GB SSD / Windows 11（10.0.26200）；跑的是 API 调用，GPU 不参与推理
 - 逐题 token 用量、耗时、预测、判分全落 `details.jsonl`
 
 ## 成本
